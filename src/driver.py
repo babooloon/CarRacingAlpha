@@ -47,19 +47,32 @@ class Driver(object):
     
     def drive(self, msg):
         self.state.setFromMsg(msg)
+
+        print '------------'
+        print self.state.getRevState()
+
+        self.auto_drive(array_id)
         
-        self.steer()
-        
-        self.gear()
-        
-        self.speed()
+        # self.steer()
+        # self.gear()
+        # self.speed()
         
         return self.control.toMsg()
+
+    def auto_drive(self, array_id):
+        # control steer
+        self.control.setSteer(self.control.getSteer() + 0.25 * array_id[0])
+        # control accel
+        self.control.setAccel(array_id[1])
+        # control brake
+        self.control.setBrake(array_id[2])
+        # control gear
+        self.gear()
     
     def steer(self):
         angle = self.state.angle
         dist = self.state.trackPos
-        
+        print (self.control.getSteer())
         self.control.setSteer((angle - dist*0.5)/self.steer_lock)
     
     def gear(self):

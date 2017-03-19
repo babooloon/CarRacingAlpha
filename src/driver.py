@@ -60,14 +60,14 @@ class Driver(object):
         return self.control.toMsg()
 
     def auto_drive(self, array_id):
+        # control gear
+        self.gear()
         # control steer
         self.control.setSteer(self.control.getSteer() + 0.25 * array_id[0])
         # control accel
         self.control.setAccel(array_id[1])
         # control brake
         self.control.setBrake(array_id[2])
-        # control gear
-        self.gear()
     
     def steer(self):
         angle = self.state.angle
